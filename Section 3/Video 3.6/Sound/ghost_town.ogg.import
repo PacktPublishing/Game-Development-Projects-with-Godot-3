@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/ghost_town.ogg-227ae3eb9edec1fc0542be57b5a12ff6.oggstr"
+
+[deps]
+
+source_file="res://Sound/ghost_town.ogg"
+dest_files=[ "res://.import/ghost_town.ogg-227ae3eb9edec1fc0542be57b5a12ff6.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

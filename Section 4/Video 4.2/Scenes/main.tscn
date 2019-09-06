@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=1]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.75
+height = 1.5
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.75
+
+[sub_resource type="CubeMesh" id=3]
+
+[sub_resource type="BoxShape" id=4]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="player" type="RigidBody" parent="."]
+transform = Transform( 0.910229, 0, 0.414104, 0, 1, 0, -0.414104, 0, 0.910229, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="player"]
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="player"]
+visible = false
+shape = SubResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.94604 )
+current = true
+script = ExtResource( 1 )
+privot = NodePath("../player")
+distance = 10.0
+use_gui = false
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+transform = Transform( 7.18707, 0, 0, 0, 0.0644403, 0, 0, 0, 9.84921, 0, -1.29644, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 7.187, 0, 0, 0, 0.064, 0, 0, 0, 9.849, 0, -1.298, 0 )
+shape = SubResource( 4 )

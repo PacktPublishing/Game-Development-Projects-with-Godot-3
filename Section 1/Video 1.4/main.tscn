@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Graphics/grid.png" type="Texture" id=1]
+[ext_resource path="res://player.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.75
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 31.756, 31.92 )
+
+[sub_resource type="SegmentShape2D" id=3]
+a = Vector2( 0, -1.16552 )
+b = Vector2( 1811, -1.16552 )
+
+[sub_resource type="SegmentShape2D" id=4]
+a = Vector2( 1, -0.165516 )
+b = Vector2( 1, 1557.83 )
+
+[sub_resource type="SegmentShape2D" id=5]
+a = Vector2( 1811, 600 )
+b = Vector2( 0, 600 )
+
+[sub_resource type="SegmentShape2D" id=6]
+a = Vector2( 1017, 1568 )
+b = Vector2( 1018, 8 )
+
+[node name="main" type="Node2D"]
+
+[node name="arena_background" type="Sprite" parent="."]
+modulate = Color( 0.705882, 0.603922, 0.603922, 1 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="player" type="RigidBody2D" parent="."]
+position = Vector2( 496.244, 308.92 )
+physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="player"]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+visible = false
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 1852
+limit_bottom = 1600
+smoothing_enabled = true
+drag_margin_left = 0.5
+drag_margin_top = 0.5
+drag_margin_right = 0.5
+drag_margin_bottom = 0.5
+
+[node name="walls" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls"]
+position = Vector2( 20, 22.1655 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="walls"]
+position = Vector2( 20, 22.1655 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="walls"]
+position = Vector2( 20, 981 )
+shape = SubResource( 5 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="walls"]
+position = Vector2( 814, 13 )
+shape = SubResource( 6 )
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 1852, 1600 )

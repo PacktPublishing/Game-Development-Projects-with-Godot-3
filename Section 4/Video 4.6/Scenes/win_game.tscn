@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/win_game.gd" type="Script" id=1]
+
+[node name="Node2D" type="Control"]
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 1 )
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -100.0
+margin_right = 100.0
+margin_bottom = 100.0
+
+[node name="team_wins" type="Label" parent="Panel"]
+margin_right = 200.0
+margin_bottom = 58.0
+text = "You win! :D"
+align = 1
+valign = 1
+
+[node name="rematch" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -59.0
+margin_top = -53.0
+margin_right = 59.0
+margin_bottom = -27.0
+text = "Play Again!"
+[connection signal="pressed" from="Panel/rematch" to="." method="_on_rematch_pressed"]

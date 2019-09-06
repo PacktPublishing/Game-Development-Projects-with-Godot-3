@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Graphics/8bitOperatorPlus8-Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Node2D
+
+
+func _ready():
+	pass
+
+func set_combo(value):
+	$Label.text = \"x\" + str(value)"
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "float"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.25, 1 ),
+"update": 0,
+"values": [ Vector2( -40, 0 ), Vector2( -40, -60 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -40.0
+margin_top = -60.0
+margin_right = 40.0
+margin_bottom = -30.0
+custom_fonts/font = SubResource( 1 )
+text = "x1"
+align = 1
+valign = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "float"
+anims/float = SubResource( 2 )

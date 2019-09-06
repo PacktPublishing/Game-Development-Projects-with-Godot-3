@@ -1,0 +1,125 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/maze.mesh" type="ArrayMesh" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.75
+height = 1.5
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.75
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends StaticBody
+
+var SPEED = 1
+
+func _ready():
+	$CollisionShape.set_shape($MeshInstance.mesh.create_trimesh_shape())
+	
+func _process(delta):
+	
+	var rotation_vector = Vector3(0, 0, 0)
+	
+	if Input.is_action_pressed(\"ui_left\"):
+		rotation_vector.x += delta*SPEED
+	if Input.is_action_pressed(\"ui_right\"):
+		rotation_vector.x -= delta*SPEED
+	if Input.is_action_pressed(\"ui_up\"):
+		rotation_vector.z += delta*SPEED
+	if Input.is_action_pressed(\"ui_down\"):
+		rotation_vector.z -= delta*SPEED
+		
+	constant_angular_velocity = rotation_vector
+	rotation += rotation_vector
+		
+	rotation.x = clamp(rotation.x, -0.5, 0.5)
+	rotation.z = clamp(rotation.z, -0.5, 0.5)"
+
+[sub_resource type="SpatialMaterial" id=6]
+metallic = 0.81
+roughness = 0.6
+rim_enabled = true
+rim = 0.52
+rim_tint = 1.0
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 1.0
+
+[sub_resource type="ProceduralSky" id=4]
+sky_top_color = Color( 0.945098, 0.647059, 0.85098, 1 )
+sky_horizon_color = Color( 0.352941, 0, 0.113725, 1 )
+ground_bottom_color = Color( 0, 0.380392, 0.454902, 1 )
+ground_horizon_color = Color( 0.788235, 0.364706, 0, 1 )
+ground_curve = 0.234254
+sun_color = Color( 0, 0, 0, 1 )
+sun_latitude = 12.62
+sun_longitude = 16.94
+sun_curve = 2.26274
+sun_energy = 2.51
+
+[sub_resource type="Environment" id=5]
+background_mode = 2
+background_sky = SubResource( 4 )
+background_color = Color( 1, 0, 0, 1 )
+ambient_light_color = Color( 0.819608, 0.411765, 0.807843, 1 )
+ambient_light_energy = 0.3
+ambient_light_sky_contribution = 0.68
+fog_color = Color( 0.27451, 0.513726, 0.756863, 1 )
+auto_exposure_enabled = true
+auto_exposure_min_luma = 0.35
+auto_exposure_max_luma = 11.16
+auto_exposure_speed = 35.66
+dof_blur_near_enabled = true
+dof_blur_near_distance = 34.33
+dof_blur_near_transition = 2.11
+dof_blur_near_amount = 0.04
+dof_blur_near_quality = 2
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_brightness = 0.64
+adjustment_contrast = 1.5
+adjustment_saturation = 8.0
+
+[node name="Spatial" type="Spatial"]
+
+[node name="player" type="RigidBody" parent="."]
+transform = Transform( 0.910229, 0, 0.414104, 0, 1, 0, -0.414104, 0, 0.910229, -0.0692148, 8.70681, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="player"]
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="player"]
+shape = SubResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.94604 )
+current = true
+script = ExtResource( 1 )
+privot = NodePath("../player")
+distance = 10.0
+use_gui = false
+
+[node name="maze" type="StaticBody" parent="."]
+constant_angular_velocity = Vector3( 1, 0, 0 )
+script = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="maze"]
+transform = Transform( 4, 0, 0, 0, -1.74846e-07, -2, 0, 4, -8.74228e-08, 0, 0, 0 )
+mesh = ExtResource( 2 )
+material/0 = SubResource( 6 )
+
+[node name="CollisionShape" type="CollisionShape" parent="maze"]
+transform = Transform( 4, 0, 0, 0, -1.74846e-07, -2, 0, 4, -8.74228e-08, 0, 0, 0 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 5 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.925825, 0.377953, -1.83398e-09, 0.207632, 0.508611, 0.835586, 0.315812, 0.773606, -0.54936, -29.0392, 5.10833, -24.9696 )
+light_energy = 1.65
+light_indirect_energy = 3.26
+shadow_enabled = true
+shadow_color = Color( 0.00392157, 0.0392157, 0.211765, 1 )

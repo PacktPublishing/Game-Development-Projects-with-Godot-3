@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/maujoe.camera_control/scripts/camera_control.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/maze.mesh" type="ArrayMesh" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.75
+height = 1.5
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.75
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends StaticBody
+
+var SPEED = 1
+
+func _ready():
+	$CollisionShape.set_shape($MeshInstance.mesh.create_trimesh_shape())
+	
+func _process(delta):
+	
+	var rotation_vector = Vector3(0, 0, 0)
+	
+	if Input.is_action_pressed(\"ui_left\"):
+		rotation_vector.x += delta*SPEED
+	if Input.is_action_pressed(\"ui_right\"):
+		rotation_vector.x -= delta*SPEED
+	if Input.is_action_pressed(\"ui_up\"):
+		rotation_vector.z += delta*SPEED
+	if Input.is_action_pressed(\"ui_down\"):
+		rotation_vector.z -= delta*SPEED
+		
+	constant_angular_velocity = rotation_vector
+	rotation += rotation_vector
+		
+	rotation.x = clamp(rotation.x, -0.5, 0.5)
+	rotation.z = clamp(rotation.z, -0.5, 0.5)"
+
+[node name="Spatial" type="Spatial"]
+
+[node name="player" type="RigidBody" parent="."]
+transform = Transform( 0.910229, 0, 0.414104, 0, 1, 0, -0.414104, 0, 0.910229, -0.0692148, 8.70681, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="player"]
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="player"]
+shape = SubResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.94604 )
+current = true
+script = ExtResource( 1 )
+privot = NodePath("../player")
+distance = 10.0
+use_gui = false
+
+[node name="maze" type="StaticBody" parent="."]
+constant_angular_velocity = Vector3( 1, 0, 0 )
+script = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="maze"]
+transform = Transform( 4, 0, 0, 0, -1.74846e-07, -2, 0, 4, -8.74228e-08, 0, 0, 0 )
+mesh = ExtResource( 2 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="maze"]
+transform = Transform( 4, 0, 0, 0, -1.74846e-07, -2, 0, 4, -8.74228e-08, 0, 0, 0 )

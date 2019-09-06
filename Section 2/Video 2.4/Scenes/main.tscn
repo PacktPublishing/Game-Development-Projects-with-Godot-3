@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scenes/main.gd" type="Script" id=1]
+[ext_resource path="res://Graphics/8bitOperatorPlus8-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/score_counter.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/player.gd" type="Script" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
+[ext_resource path="res://Prefabs/lose_zone.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 131, 13 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 509.176, 21.446 )
+
+[node name="main" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="score_counter" type="Label" parent="CanvasLayer"]
+margin_right = 1024.0
+margin_bottom = 180.0
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 1
+valign = 1
+script = ExtResource( 3 )
+
+[node name="combo_timer" type="Timer" parent="CanvasLayer/score_counter"]
+wait_time = 2.5
+one_shot = true
+
+[node name="ball_spawnpoint" type="Position2D" parent="."]
+position = Vector2( -43, 45 )
+
+[node name="player" type="KinematicBody2D" parent="."]
+position = Vector2( 197, 524 )
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="player"]
+scale = Vector2( 4.10938, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+shape = SubResource( 1 )
+
+[node name="ball_spawner" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="lose_zone" type="Area2D" parent="."]
+position = Vector2( 0, 599.446 )
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="lose_zone"]
+position = Vector2( 511.594, 25.0891 )
+shape = SubResource( 2 )
+[connection signal="timeout" from="CanvasLayer/score_counter/combo_timer" to="CanvasLayer/score_counter" method="_on_combo_timer_timeout"]
+[connection signal="timeout" from="ball_spawner" to="." method="spawn_ball"]
+[connection signal="body_entered" from="lose_zone" to="lose_zone" method="_on_lose_zone_body_entered"]

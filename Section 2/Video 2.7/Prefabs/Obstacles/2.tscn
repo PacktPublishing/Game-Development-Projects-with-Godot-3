@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Graphics/TileSet/tileset.tres" type="TileSet" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 176 )
+
+[node name="obstacle2" type="TileMap"]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+collision_use_kinematic = true
+collision_friction = 0.0
+collision_bounce = 1.0
+format = 1
+tile_data = PoolIntArray( 196632, 0, 0, 262168, 0, 0, 327704, 0, 0, 393240, 0, 0, 458776, 0, 0, 524312, 0, 0, 589848, 0, 0, 655384, 0, 0, 720920, 0, 0, 786456, 0, 0, 851992, 0, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 784, 272 )
+shape = SubResource( 1 )
